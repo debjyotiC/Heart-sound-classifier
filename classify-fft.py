@@ -22,7 +22,7 @@ model = tf.keras.models.Sequential([
 model.compile(loss=tf.keras.losses.BinaryCrossentropy(),
               optimizer=tf.keras.optimizers.Adam(learning_rate=0.01), metrics=['accuracy'])
 
-model_out = model.fit(x_train, y_train, epochs=150, validation_data=[x_test, y_test], batch_size=20)
+model_out = model.fit(x_train, y_train, epochs=2000, validation_data=[x_test, y_test], batch_size=20)
 
 model.save("model/fft-clf")
 
