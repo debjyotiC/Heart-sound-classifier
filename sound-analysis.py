@@ -5,7 +5,7 @@ wave_file = "data/tone-1.wav"
 sample_rate, x = wavfile.read(wave_file)
 N = len(x)
 
-T = x[2]-x[1]   # time increment in each data
+T = x[2]-x[1]   # time increment in each x
 
 fft = abs(fft(x) * T)
 freq = abs(fftfreq(N, d=T))

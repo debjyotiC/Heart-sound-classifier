@@ -47,14 +47,14 @@ plt.plot(xf, mag_test_2)
 plt.grid()
 plt.show()
 
-# save data train
+# save x train
 # values_1 = {'Frequency': xf, 'Mag_1': mag_1, 'Mag_2': mag_2, 'Mag_3': mag_3, 'Mag_4': mag_4}
 # df_w_1 = pd.DataFrame(values_1, columns=['Frequency', 'Mag_1', 'Mag_2', 'Mag_3', 'Mag_4'])
-# df_w_1.to_csv("data/fft-data-3.csv", index=False, header=True)
+# df_w_1.to_csv("x/fft-x-3.csv", index=False, header=True)
 
 
-# save data test
+# save x test
 # values_1 = {'Frequency': xf, 'Mag_1': mag_test_1, 'Mag_2': mag_test_2}
 # df_w_1 = pd.DataFrame(values_1, columns=['Frequency', 'Mag_1', 'Mag_2'])
-# df_w_1.to_csv("data/fft-data-test.csv", index=False, header=True)
+# df_w_1.to_csv("x/fft-x-test.csv", index=False, header=True)
 
