@@ -5,7 +5,8 @@ import pandas as pd
 df = pd.read_csv("data/fft-data-test.csv").dropna().reset_index(drop=True)
 
 x_test = df.drop(columns=['Frequency']).to_numpy(dtype='float64')
-data_selector = 0
+data_selector = 1
+
 print(x_test[data_selector])
 
 # load Keras model
