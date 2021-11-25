@@ -24,19 +24,19 @@ model = tf.keras.Sequential([
     tf.keras.layers.MaxPooling2D(2, 2),
     tf.keras.layers.Conv2D(52, (2, 2), activation='relu'),
     tf.keras.layers.MaxPooling2D(2, 2),
-    tf.keras.layers.Conv2D(64, (2, 2), activation='relu'),
+    tf.keras.layers.Conv2D(32, (2, 2), activation='relu'),
     tf.keras.layers.MaxPooling2D(2, 2),
 
     tf.keras.layers.Flatten(),
-    tf.keras.layers.Dense(64, activation='relu'),
+    tf.keras.layers.Dense(32, activation='relu'),
     tf.keras.layers.Dropout(0.5),
     tf.keras.layers.Dense(1, activation='sigmoid')
 ])
 
 model.summary()
-model.compile(loss=tf.keras.losses.BinaryCrossentropy(), optimizer=tf.keras.optimizers.Adam(learning_rate=0.0001),
+model.compile(loss=tf.keras.losses.BinaryCrossentropy(), optimizer=tf.keras.optimizers.Adam(learning_rate=0.001),
               metrics=['acc'])
-history = model.fit(x_train, y_train, epochs=40, batch_size=100, validation_data=(x_test, y_test))
+history = model.fit(x_train, y_train, epochs=100, batch_size=20, validation_data=(x_test, y_test))
 
 acc = history.history['acc']
 val_acc = history.history['val_acc']
