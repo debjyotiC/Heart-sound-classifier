@@ -1,9 +1,7 @@
 import tensorflow as tf
 import numpy as np
-from scipy.signal import decimate
 from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
-from sklearn.metrics import confusion_matrix
 
 data = np.load('data/mfcc-heart.npz', allow_pickle=True)  # load audio data
 x_data, y_data = data['out_x'], data['out_y']  # load into np arrays
@@ -26,7 +24,7 @@ model = tf.keras.Sequential([
     tf.keras.layers.MaxPooling2D(2, 2),
     tf.keras.layers.Conv2D(32, (2, 2), activation='relu'),
     tf.keras.layers.MaxPooling2D(2, 2),
-
+    # DNN part
     tf.keras.layers.Flatten(),
     tf.keras.layers.Dense(32, activation='relu'),
     tf.keras.layers.Dropout(0.5),
@@ -45,12 +43,14 @@ val_loss = history.history['val_loss']
 
 epochs = range(1, len(acc) + 1)
 fig, axs = plt.subplots(2, 1)
+
 # plot loss
 axs[0].plot(epochs, loss, 'bo', label='Training loss')
 axs[0].plot(epochs, val_loss, 'b', label='Validation loss')
 axs[0].set_xlabel('Epoch')
 axs[0].set_ylabel('Loss')
 axs[0].grid(True)
+
 # plot accuracy
 axs[1].plot(epochs, acc, 'bo', label='Training acc')
 axs[1].plot(epochs, val_acc, 'b', label='Validation acc')

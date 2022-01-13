@@ -5,13 +5,16 @@ import librosa
 import numpy as np
 
 np.set_printoptions(suppress=True)
-dataset_path = '/Users/deb/Documents/heart-data/'
+dataset_path = 'C:\\Users\\Deb\\Documents\\heart-data\\'
 
 sample_rate = 16000
 num_mfcc = 26
 
 all_targets = [name for name in listdir(dataset_path) if isdir(join(dataset_path, name))]
 all_targets.remove('exhaled')
+all_targets.remove('artifact')
+all_targets.remove('test')
+print(all_targets)
 
 filenames = []
 y = []
@@ -31,7 +34,6 @@ def calc_mfcc(path):
 
 out_x = []
 out_y = []
-prob_cnt = 0
 
 for folder in range(len(all_targets)):
     all_files = join(dataset_path, all_targets[folder])
@@ -49,11 +51,11 @@ for folder in range(len(all_targets)):
             print(mfcc_calculated.shape)
         else:
             print('Dropped:', folder, mfcc_calculated.shape)
-            prob_cnt += 1
+
 
 data_x = np.array(out_x)
 data_y = np.array(out_y)
 
 print(data_x.shape)
 
-np.savez('data/mfcc-heart.npz', out_x=data_x, out_y=data_y)
+np.savez('data\\mfcc-murmur-normal.npz', out_x=data_x, out_y=data_y)
