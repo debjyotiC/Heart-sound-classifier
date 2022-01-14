@@ -35,7 +35,7 @@ model = tf.keras.Sequential([
 model.summary()
 model.compile(loss=tf.keras.losses.BinaryCrossentropy(), optimizer=tf.keras.optimizers.Adam(learning_rate=0.0001),
               metrics=['acc'])
-history = model.fit(x_train, y_train, epochs=100, batch_size=2, validation_data=(x_test, y_test))
+history = model.fit(x_train, y_train, epochs=100, batch_size=5, validation_data=(x_test, y_test))
 
 acc = history.history['acc']
 val_acc = history.history['val_acc']
@@ -54,11 +54,12 @@ axs[0].plot(epochs, val_loss, 'b', label='Validation loss')
 axs[0].set_xlabel('Epoch')
 axs[0].set_ylabel('Loss')
 axs[0].grid(True)
-
+axs[0].legend(loc='best')
 # plot accuracy
 axs[1].plot(epochs, acc, '-', label='Training acc')
 axs[1].plot(epochs, val_acc, 'b', label='Validation acc')
 axs[1].set_xlabel('Epoch')
 axs[1].set_ylabel('Accuracy')
 axs[1].grid(True)
+axs[1].legend(loc='best')
 plt.show()
