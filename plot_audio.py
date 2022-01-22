@@ -15,6 +15,7 @@ x_data, y_data = data['out_x'], data['out_y']  # load into np arrays
 
 mfcc_calculated = x_data[32]
 print(y_data[32])
+# plt.plot(signal)
 
 # Plot MFCC
 fig = plt.figure()

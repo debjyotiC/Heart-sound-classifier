@@ -5,7 +5,7 @@ import librosa
 import numpy as np
 
 np.set_printoptions(suppress=True)
-dataset_path = 'C:\\Users\\Deb\\Documents\\heart-data\\'
+dataset_path = '/Users/deb/Documents/heart-data'
 
 sample_rate = 16000
 num_mfcc = 26
@@ -58,4 +58,4 @@ data_y = np.array(out_y)
 
 print(data_x.shape)
 
-np.savez('data\\mfcc-murmur-normal.npz', out_x=data_x, out_y=data_y)
+np.savez('data/mfcc-murmur-normal.npz', out_x=data_x, out_y=data_y)
