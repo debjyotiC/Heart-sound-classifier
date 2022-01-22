@@ -1,2 +1,4 @@
 /data/mfcc-heart.npz
 /data/mfcc-murmur-normal.npz
+/data/x_train.npy
+/data/y_train.npy

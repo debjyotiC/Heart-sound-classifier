@@ -28,7 +28,6 @@ model = tf.keras.Sequential([
     tf.keras.layers.Dropout(0.3),
     tf.keras.layers.Flatten(),
     tf.keras.layers.Dense(32, activation='relu'),
-    tf.keras.layers.Dropout(0.25),
     tf.keras.layers.Dense(1, activation='sigmoid')
 ])
 
@@ -42,8 +41,8 @@ val_acc = history.history['val_acc']
 loss = history.history['loss']
 val_loss = history.history['val_loss']
 
-print(f"Training Accuracy {round(np.average(acc), 3)}")
-print(f"Validation Accuracy {round(np.average(val_acc), 3)}")
+print(f"Training Accuracy: {round(np.average(acc), 3)}")
+print(f"Validation Accuracy: {round(np.average(val_acc), 3)}")
 
 epochs = range(1, len(acc) + 1)
 fig, axs = plt.subplots(2, 1)
