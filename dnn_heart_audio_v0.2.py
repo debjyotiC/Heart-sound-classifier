@@ -27,6 +27,7 @@ model = tf.keras.Sequential([
     tf.keras.layers.MaxPooling2D(2, 2),
     tf.keras.layers.Dropout(0.3),
     tf.keras.layers.Flatten(),
+
     tf.keras.layers.Dense(32, activation='relu'),
     tf.keras.layers.Dense(1, activation='sigmoid')
 ])
@@ -35,6 +36,7 @@ model.summary()
 model.compile(loss=tf.keras.losses.BinaryCrossentropy(), optimizer=tf.keras.optimizers.Adam(learning_rate=0.0001),
               metrics=['acc'])
 history = model.fit(x_train, y_train, epochs=100, batch_size=5, validation_data=(x_test, y_test))
+model.save("saved_model/mfcc")
 
 acc = history.history['acc']
 val_acc = history.history['val_acc']
