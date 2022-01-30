@@ -28,8 +28,7 @@ def calc_MFCC(path):
     signal, fs = librosa.load(path, sr=sample_rate)
     signal = signal[0:int(1.46 * sample_rate)]  # keep first 3 sec of the audio data
     mfccs = sp.feature.mfcc(signal, sampling_frequency=fs, frame_length=0.256, frame_stride=0.0446, num_cepstral=27,
-                            num_filters=26, fft_length=4096)
-    mfccs = np.array(mfccs)
+                            num_filters=26, fft_length=4096)  # type: np.ndarray
     return mfccs.transpose()
 
 
@@ -38,8 +37,7 @@ def calc_MFE(path):
     signal = signal[0:int(1.46 * sample_rate)]  # keep first 3 sec of the audio data
     mfe, energy = sp.feature.mfe(signal, sampling_frequency=fs, frame_length=0.256, frame_stride=0.0446,
                                  num_filters=26, fft_length=4096)
-    mfes = np.array(mfe)
-    return mfes.transpose()
+    return mfe.transpose()
 
 
 out_x = []
