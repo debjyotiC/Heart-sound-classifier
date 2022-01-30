@@ -4,6 +4,9 @@ import tensorflow as tf
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 
+tf.config.list_physical_devices('GPU')
+tf.test.is_gpu_available()
+
 data = np.load("data/mfcc-murmur-normal.npz", allow_pickle=True)
 x_data, y_data = data['out_x'], data['out_y']
 
