@@ -46,8 +46,8 @@ for folder in range(len(all_targets)):
 
         mfcc_calculated = calc_mfcc(full_path)
         if mfcc_calculated.shape[1] == num_mfcc:
-            out_x.append(mfcc_calculated)
-            out_y.append(folder)
+            out_x.append(mfcc_calculated.flatten())
+            out_y.append(folder+1)
             print(mfcc_calculated.shape)
         else:
             print('Dropped:', folder, mfcc_calculated.shape)
@@ -58,4 +58,4 @@ data_y = np.array(out_y)
 
 print(data_x.shape)
 
-np.savez('data/mfcc-murmur-normal.npz', out_x=data_x, out_y=data_y)
+np.savez('data/mfcc-flattened.npz', out_x=data_x, out_y=data_y)
