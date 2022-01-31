@@ -1,6 +1,7 @@
 /data/mfcc-heart.npz
 /data/mfcc-flattened.npz
 /data/mfcc-murmur-normal.npz
-/data/mfcc-new.npz
+/data/mfcc.npz
+/data/mfe.npz
 /data/x_train.npy
 /data/y_train.npy
