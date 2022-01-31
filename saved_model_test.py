@@ -1,31 +1,30 @@
 import tensorflow as tf
 import numpy as np
-import random
-from sklearn.model_selection import train_test_split
 
-data = np.load("data/mfcc-murmur-normal.npz", allow_pickle=True)
-x_data, y_data = data['out_x'], data['out_y']
+data_path = "data/mfcc.npz"
+model_path = "saved_model/mfcc"
 
-# Set random seeds for repeatable results
-RANDOM_SEED = 3
-random.seed(RANDOM_SEED)
-np.random.seed(RANDOM_SEED)
-tf.random.set_seed(RANDOM_SEED)
+loaded_data = np.load(data_path)
+x_data, y_data = loaded_data['out_x'], loaded_data['out_y']
 
-x_train, x_test, y_train, y_test = train_test_split(x_data, y_data, train_size=0.8, random_state=1, shuffle=True)
-# print(x_test[0].shape)
-# loaded_model = tf.keras.models.load_model('saved_model/mfcc')
-# loaded_model.summary()
-# # Evaluate the restored model
-# loss, acc = loaded_model.evaluate(x_test, y_test, verbose=2)
-# print('Restored model, accuracy: {:5.2f}%'.format(100 * acc))
+classes_values = ["murmur", "normal"]
+classes = len(classes_values)
 
-# load Keras model
-load_model = tf.keras.models.load_model('saved_model/mfcc')
-x_test = x_test.reshape(x_test.shape[0], x_test.shape[1], x_test.shape[2], 1)
-print(x_test.shape)
-classes = load_model.predict(x_test[1:])
+y_data = tf.keras.utils.to_categorical(y_data - 1, classes)
+loaded_model = tf.keras.models.load_model(model_path)
 
+prediction = loaded_model.predict(x_data)
+right, wrong = 0, 0
 
-print(classes)
+for i in enumerate(prediction):
+    actual = classes_values[np.argmax(y_data[i[0]])]
+    predicted = classes_values[np.argmax(i[1])]
+    if actual == predicted:
+        print("Actual class is ", actual, "and predicted", predicted)
+        right = right + 1
+    else:
+        print("WRONG!!! Actual class is ", actual, "but predicted", predicted)
+        wrong = wrong + 1
+
+print(f"Predicted {right} right and {wrong} wrong in total of {right+wrong}")
 
