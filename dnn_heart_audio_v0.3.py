@@ -6,27 +6,27 @@ import matplotlib.pyplot as plt
 tf.config.list_physical_devices('GPU')
 tf.test.is_gpu_available()
 
-data = np.load("data/mfcc-flattened.npz", allow_pickle=True)
+data = np.load("data/mfe-flattened.npz", allow_pickle=True)
 x_data, y_data = data['out_x'], data['out_y']
 
 classes_values = ["murmur", "normal"]
 classes = len(classes_values)
 
 y_data = tf.keras.utils.to_categorical(y_data - 1, classes)
-x_train, x_test, y_train, y_test = train_test_split(x_data, y_data, test_size=0.3, random_state=1, shuffle=True)
+x_train, x_test, y_train, y_test = train_test_split(x_data, y_data, test_size=0.2, random_state=1, shuffle=True)
 input_length = x_train[0].shape[0]
-print(input_length)
+
 train_dataset = tf.data.Dataset.from_tensor_slices((x_train, y_train))
 validation_dataset = tf.data.Dataset.from_tensor_slices((x_test, y_test))
 
 model = tf.keras.Sequential([
     tf.keras.layers.Reshape((int(input_length / 13), 13), input_shape=(input_length,)),
-
     tf.keras.layers.Conv1D(8, kernel_size=3, activation='relu', padding='same'),
     tf.keras.layers.MaxPooling1D(pool_size=2, strides=2, padding='same'),
+    tf.keras.layers.Dropout(0.6),
     tf.keras.layers.Conv1D(16, kernel_size=3, activation='relu', padding='same'),
     tf.keras.layers.MaxPooling1D(pool_size=2, strides=2, padding='same'),
-    tf.keras.layers.Dropout(0.2),
+    tf.keras.layers.Dropout(0.6),
     tf.keras.layers.Flatten(),
 
     # Dense layer
@@ -35,11 +35,11 @@ model = tf.keras.Sequential([
 
 model.summary()
 model.compile(loss=tf.keras.losses.CategoricalCrossentropy(),
-              optimizer=tf.keras.optimizers.Adam(learning_rate=0.005, beta_1=0.9, beta_2=0.999),
+              optimizer=tf.keras.optimizers.Adam(learning_rate=0.008, beta_1=0.9, beta_2=0.999),
               metrics=['acc'])
 
 # this controls the batch size
-BATCH_SIZE = 50
+BATCH_SIZE = 32
 train_dataset = train_dataset.batch(BATCH_SIZE, drop_remainder=False)
 validation_dataset = validation_dataset.batch(BATCH_SIZE, drop_remainder=False)
 

@@ -39,7 +39,8 @@ model.summary()
 model.compile(loss=tf.keras.losses.BinaryCrossentropy(), optimizer=tf.keras.optimizers.Adam(learning_rate=0.0001),
               metrics=['acc'])
 history = model.fit(x_train, y_train, epochs=100, batch_size=5, validation_data=(x_test, y_test))
-model.save("saved_model/mfcc")
+
+model.save("saved_model/mfcc_3d")
 
 acc = history.history['acc']
 val_acc = history.history['val_acc']
