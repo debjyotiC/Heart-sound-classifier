@@ -5,3 +5,4 @@
 /data/mfe.npz
 /data/x_train.npy
 /data/y_train.npy
+/data/mfe-flattened.npz
