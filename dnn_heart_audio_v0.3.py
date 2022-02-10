@@ -13,7 +13,7 @@ classes_values = ["murmur", "normal"]
 classes = len(classes_values)
 
 y_data = tf.keras.utils.to_categorical(y_data - 1, classes)
-x_train, x_test, y_train, y_test = train_test_split(x_data, y_data, test_size=0.2, random_state=1, shuffle=True)
+x_train, x_test, y_train, y_test = train_test_split(x_data, y_data, test_size=0.3, random_state=1, shuffle=True)
 input_length = x_train[0].shape[0]
 print(input_length)
 train_dataset = tf.data.Dataset.from_tensor_slices((x_train, y_train))
@@ -39,13 +39,13 @@ model.compile(loss=tf.keras.losses.CategoricalCrossentropy(),
               metrics=['acc'])
 
 # this controls the batch size
-BATCH_SIZE = 32
+BATCH_SIZE = 50
 train_dataset = train_dataset.batch(BATCH_SIZE, drop_remainder=False)
 validation_dataset = validation_dataset.batch(BATCH_SIZE, drop_remainder=False)
 
 history = model.fit(train_dataset, epochs=150, validation_data=validation_dataset)
 
-# model.save("saved_model/mfcc_flattened")
+model.save("saved_model/mfcc_flattened")
 
 acc = history.history['acc']
 val_acc = history.history['val_acc']
