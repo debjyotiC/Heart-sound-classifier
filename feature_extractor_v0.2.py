@@ -63,7 +63,7 @@ for folder in range(len(all_targets)):
             out_x_mfcc.append(mfcc_calculated.flatten())
             out_y_mfcc.append(folder + 1)
 
-            out_x_mfe.append(mfcc_calculated.flatten())
+            out_x_mfe.append(mfe_calculated.flatten())
             out_y_mfe.append(folder + 1)
             print("MFCC Shape: ", mfcc_calculated.shape)
             print("MFE Shape: ", mfe_calculated.shape)
@@ -80,6 +80,6 @@ data_mfe_y = np.array(out_y_mfe)
 print("MFCC Shape: ", data_mfcc_x.shape)
 print("MFE Shape: ", data_mfe_x.shape)
 
-print("saving NPZ file")
-np.savez('data/mfcc.npz', out_x=data_mfcc_x, out_y=data_mfcc_y)  # store flattened MFCCs
-np.savez('data/mfe.npz', out_x=data_mfe_x, out_y=data_mfe_y)  # store flattened MFEs
+# print("saving NPZ file")
+# np.savez('data/mfcc.npz', out_x=data_mfcc_x, out_y=data_mfcc_y)  # store flattened MFCCs
+# np.savez('data/mfe.npz', out_x=data_mfe_x, out_y=data_mfe_y)  # store flattened MFEs
