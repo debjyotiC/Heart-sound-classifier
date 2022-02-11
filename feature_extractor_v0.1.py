@@ -12,8 +12,10 @@ sample_rate = 16000
 frame_length = 0.256  # 0.256
 frame_stride = 0.050  # 0.050
 fft_size = 4096
+
 num_filter = 26
 num_ceps = 26
+pre_emph = 0.97
 
 all_targets = [name for name in listdir(dataset_path) if isdir(join(dataset_path, name))]
 all_targets.remove('exhaled')
@@ -31,46 +33,19 @@ for index, target in enumerate(all_targets):
 
 def calc_mfcc(path):
     signal, fs = librosa.load(path, sr=sample_rate)
-    signal = signal[0:int(1.5 * sample_rate)]  # keep first 3 sec of the audio data
+    signal = signal[0: int(1.5 * fs)]
     mfccs = mfcc(signal, samplerate=fs, winlen=frame_length, winstep=frame_stride, numcep=num_ceps, nfilt=num_filter,
-                 nfft=fft_size, preemph=0.0, ceplifter=0, appendEnergy=False, winfunc=np.hanning)
+                 nfft=fft_size, preemph=pre_emph, ceplifter=0, appendEnergy=False, winfunc=np.hanning)
     return mfccs.transpose()
 
 
 def calc_mfe(path):
     signal, fs = librosa.load(path, sr=sample_rate)
-    signal = signal[0:int(1.5 * sample_rate)]  # keep first 3 sec of the audio data
+    signal = signal[0: int(1.5 * fs)]
     mfe, energy = fbank(signal, samplerate=fs, winlen=frame_length, winstep=frame_stride, nfilt=num_filter,
-                        nfft=fft_size, preemph=0.0, winfunc=np.hanning)
+                        nfft=fft_size, preemph=pre_emph, winfunc=np.hanning)
     return mfe.transpose()
 
-
-# out_x = []
-# out_y = []
-#
-# for folder in range(len(all_targets)):
-#     all_files = join(dataset_path, all_targets[folder])
-#     for i in range(len(listdir(all_files))):
-#         full_path = join(all_files, listdir(all_files)[i])
-#         print(full_path, folder)
-#
-#         if not full_path.endswith('.wav'):
-#             continue
-#
-#         mfcc_calculated = calc_mfcc(full_path)
-#         if mfcc_calculated.shape[1] == num_mfcc:
-#             out_x.append(mfcc_calculated.flatten())
-#             out_y.append(folder + 1)
-#             print(mfcc_calculated.shape)
-#         else:
-#             print('Dropped:', folder, mfcc_calculated.shape)
-#
-# data_x = np.array(out_x)
-# data_y = np.array(out_y)
-#
-# print(data_x.shape)
-#
-# np.savez('data/mfcc-flattened.npz', out_x=data_x, out_y=data_y)
 
 out_x_mfcc = []
 out_y_mfcc = []
@@ -98,14 +73,15 @@ for folder in range(len(all_targets)):
             print("MFCC Shape: ", mfcc_calculated.shape)
             print("MFE Shape: ", mfe_calculated.shape)
         else:
-            print('MFCC Dropped:', folder, mfcc_calculated.shape)
-            print('MFE Dropped:', folder, mfe_calculated.shape)
+            print(f"MFCC Dropped: {folder} {mfcc_calculated.shape}")
+            print(f"MFE Dropped: {folder} {mfe_calculated.shape}")
 
-data_mfcc_x = np.array(out_x_mfcc)
-data_mfcc_y = np.array(out_y_mfcc)
 
-data_mfe_x = np.array(out_x_mfe)
-data_mfe_y = np.array(out_y_mfe)
+data_mfcc_x = np.array(out_x_mfcc, dtype=object)
+data_mfcc_y = np.array(out_y_mfcc, dtype=object)
+
+data_mfe_x = np.array(out_x_mfe, dtype=object)
+data_mfe_y = np.array(out_y_mfe, dtype=object)
 
 print("MFCC Shape: ", data_mfcc_x.shape)
 print("MFE Shape: ", data_mfe_x.shape)
