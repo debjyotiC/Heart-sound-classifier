@@ -3,8 +3,6 @@ import tensorflow as tf
 from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
 
-tf.config.list_physical_devices('GPU')
-tf.test.is_gpu_available()
 
 data = np.load("data/mfcc.npz", allow_pickle=True)
 x_data, y_data = data['out_x'], data['out_y']

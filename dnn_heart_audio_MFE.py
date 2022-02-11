@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 tf.config.list_physical_devices('GPU')
 tf.test.is_gpu_available()
 
-data = np.load("data/mfcc-flattened.npz", allow_pickle=True)
+data = np.load("data/mfe.npz", allow_pickle=True)
 x_data, y_data = data['out_x'], data['out_y']
 
 classes_values = ["murmur", "normal"]
