@@ -3,11 +3,8 @@ import tensorflow as tf
 from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
 
-tf.config.list_physical_devices('GPU')
-tf.test.is_gpu_available()
-
-data = np.load("data/mfe-flattened.npz", allow_pickle=True)
-x_data, y_data = data['out_x'], data['out_y']
+data = np.load("data/mfcc-flattened.npz", allow_pickle=True)
+x_data, y_data = data['out_x'].astype('float32'), data['out_y'].astype('float32')
 
 classes_values = ["murmur", "normal"]
 classes = len(classes_values)
@@ -45,7 +42,7 @@ validation_dataset = validation_dataset.batch(BATCH_SIZE, drop_remainder=False)
 
 history = model.fit(train_dataset, epochs=150, validation_data=validation_dataset)
 
-model.save("saved_model/mfcc_flattened")
+# model.save("saved_model/mfcc_flattened")
 
 acc = history.history['acc']
 val_acc = history.history['val_acc']
