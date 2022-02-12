@@ -53,6 +53,8 @@ out_y_mfcc = []
 out_x_mfe = []
 out_y_mfe = []
 
+dropped, kept = 0, 0
+
 for folder in range(len(all_targets)):
     all_files = join(dataset_path, all_targets[folder])
     for i in range(len(listdir(all_files))):
@@ -72,9 +74,11 @@ for folder in range(len(all_targets)):
             out_y_mfe.append(folder + 1)
             print("MFCC Shape: ", mfcc_calculated.shape)
             print("MFE Shape: ", mfe_calculated.shape)
+            kept = kept + 1
         else:
             print(f"MFCC Dropped: {folder} {mfcc_calculated.shape}")
             print(f"MFE Dropped: {folder} {mfe_calculated.shape}")
+            dropped = dropped + 1
 
 
 data_mfcc_x = np.array(out_x_mfcc, dtype=object)
@@ -82,6 +86,8 @@ data_mfcc_y = np.array(out_y_mfcc, dtype=object)
 
 data_mfe_x = np.array(out_x_mfe, dtype=object)
 data_mfe_y = np.array(out_y_mfe, dtype=object)
+
+print(f"Kept {kept} files and dropped {dropped} in total of {dropped+kept}")
 
 print("MFCC Shape: ", data_mfcc_x.shape)
 print("MFE Shape: ", data_mfe_x.shape)
