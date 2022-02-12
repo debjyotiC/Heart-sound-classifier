@@ -1,11 +1,31 @@
 import numpy as np
-import speechpy as sp
+import librosa
 import matplotlib.pyplot as plt
-loaded_file = np.load("data/mfe.npz", allow_pickle=True)
 
-x_data, y_data = loaded_file["out_x"], loaded_file["out_y"]
 
-mfcc_data = x_data[0].reshape(26, 26)
+time = 2.0
+alpha = 0.97
 
-plt.imshow(mfcc_data, cmap='inferno', origin='lower')
+file_path = "/Users/deb/Documents/heart-data/murmur/murmur__112_1306243000964_A.wav"
+
+signal, fs = librosa.load(file_path, sr=None)
+print(fs)
+signal = signal[0: int(time * fs)]
+
+
+emphasized_signal = np.append(signal[0], signal[1:]-alpha*signal[:-1])
+
+fig, ax = plt.subplots(3, 1)
+fig.tight_layout()
+ax[0].plot(signal)
+ax[0].set_ylabel("Amplitude")
+ax[0].set_xlabel("Time (millisecond)")
+ax[0].grid(True)
+
+ax[1].plot(emphasized_signal)
+ax[1].set_ylabel("Amplitude")
+ax[1].set_xlabel("Time (millisecond)")
+ax[1].grid(True)
+ax[2].set_axis_off()
+plt.savefig("signal.png", dpi=600)
 plt.show()
