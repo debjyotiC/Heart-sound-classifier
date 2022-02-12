@@ -6,7 +6,7 @@ import numpy as np
 
 np.set_printoptions(suppress=True)
 dataset_path = '/Users/deb/Documents/heart-data'
-
+SAVE = False
 sample_rate = 16000
 
 frame_length = 0.5
@@ -37,7 +37,7 @@ for index, target in enumerate(all_targets):
 
 
 def calc_MFCC(path):
-    signal, fs = librosa.load(path, sr=sample_rate)
+    signal, fs = librosa.load(path, sr=None)
     signal = signal[0: int(time * fs)]
     signal_pre_emphasized = sp.processing.preemphasis(signal, cof=pre_cof, shift=pre_shift)
     mfccs = sp.feature.mfcc(signal_pre_emphasized, sampling_frequency=fs, frame_length=frame_length,
@@ -47,7 +47,7 @@ def calc_MFCC(path):
 
 
 def calc_MFE(path):
-    signal, fs = librosa.load(path, sr=sample_rate)
+    signal, fs = librosa.load(path, sr=None)
     signal = signal[0: int(time * fs)]
     signal_pre_emphasized = sp.processing.preemphasis(signal, cof=pre_cof, shift=pre_shift)
     mfe, energy = sp.feature.mfe(signal_pre_emphasized, sampling_frequency=fs, frame_length=frame_length,
@@ -57,7 +57,7 @@ def calc_MFE(path):
 
 
 def calc_logMFE(path):
-    signal, fs = librosa.load(path, sr=sample_rate)
+    signal, fs = librosa.load(path, sr=None)
     signal = signal[0: int(time * fs)]
     signal_pre_emphasized = sp.processing.preemphasis(signal, cof=pre_cof, shift=pre_shift)
     lmfe = sp.feature.lmfe(signal_pre_emphasized, sampling_frequency=fs, frame_length=frame_length,
@@ -125,7 +125,11 @@ print("MFCC Shape: ", data_mfcc_x.shape)
 print("MFE Shape: ", data_mfe_x.shape)
 print("log MFE Shape: ", data_lmfe_x.shape)
 
-print("saving NPZ file")
-np.savez('data/mfcc.npz', out_x=data_mfcc_x, out_y=data_mfcc_y)  # store flattened MFCCs
-np.savez('data/mfe.npz', out_x=data_mfe_x, out_y=data_mfe_y)  # store flattened MFEs
-np.savez('data/lmfe.npz', out_x=data_lmfe_x, out_y=data_lmfe_y)  # store flattened log MFEs
+
+if SAVE:
+    print("saving NPZ file")
+    np.savez('data/mfcc.npz', out_x=data_mfcc_x, out_y=data_mfcc_y)  # store flattened MFCCs
+    np.savez('data/mfe.npz', out_x=data_mfe_x, out_y=data_mfe_y)  # store flattened MFEs
+    np.savez('data/lmfe.npz', out_x=data_lmfe_x, out_y=data_lmfe_y)  # store flattened log MFEs
+else:
+    pass
