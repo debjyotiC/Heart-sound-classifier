@@ -119,6 +119,15 @@ data_mfe_y = np.array(out_y_mfe)
 data_lmfe_x = np.array(out_x_lmfe)
 data_lmfe_y = np.array(out_y_lmfe)
 
+data_mfcc_x_int8 = np.array(out_x_mfcc, dtype=np.int8)
+data_mfcc_y_int8 = np.array(out_y_mfcc, dtype=np.int8)
+
+data_mfe_x_int8 = np.array(out_x_mfe, dtype=np.int8)
+data_mfe_y_int8 = np.array(out_y_mfe, dtype=np.int8)
+
+data_lmfe_x_int8 = np.array(out_x_lmfe, dtype=np.int8)
+data_lmfe_y_int8 = np.array(out_y_lmfe, dtype=np.int8)
+
 print(f"Kept {kept} files and dropped {dropped} in total of {dropped + kept}")
 
 print("MFCC Shape: ", data_mfcc_x.shape)
@@ -131,5 +140,9 @@ if SAVE:
     np.savez('data/mfcc.npz', out_x=data_mfcc_x, out_y=data_mfcc_y)  # store flattened MFCCs
     np.savez('data/mfe.npz', out_x=data_mfe_x, out_y=data_mfe_y)  # store flattened MFEs
     np.savez('data/lmfe.npz', out_x=data_lmfe_x, out_y=data_lmfe_y)  # store flattened log MFEs
+
+    np.savez('data/mfcc_int8.npz', out_x=data_mfcc_x_int8, out_y=data_mfcc_y_int8)  # store flattened MFCCs
+    np.savez('data/mfe_int8.npz', out_x=data_mfe_x_int8, out_y=data_mfe_y_int8)  # store flattened MFEs
+    np.savez('data/lmfe_int8.npz', out_x=data_lmfe_x_int8, out_y=data_lmfe_y_int8)  # store flattened log MFEs
 else:
     pass
