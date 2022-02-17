@@ -6,7 +6,7 @@ from sklearn.metrics import accuracy_score
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-DEBUG = False
+DEBUG = True
 model_type = "mfcc"
 data_path = f"data/{model_type}.npz"
 model_path = f"saved_model/{model_type}"
