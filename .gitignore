@@ -7,3 +7,6 @@
 /data/y_train.npy
 /data/mfe-flattened.npz
 /data/lmfe.npz
+/data/lmfe_int8.npz
+/data/mfcc_int8.npz
+/data/mfe_int8.npz
