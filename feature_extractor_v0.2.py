@@ -7,7 +7,7 @@ import numpy as np
 np.set_printoptions(suppress=True)
 dataset_path = '/Users/deb/Documents/heart-data'
 SAVE = True
-sample_rate = 16000
+
 
 frame_length = 0.5
 frame_stride = 0.01
