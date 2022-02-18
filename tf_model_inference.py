@@ -28,12 +28,16 @@ output_details = interpreter.get_output_details()
 
 for data in enumerate(x_data):
     input_data = data[1].astype(np.float32)
+
     interpreter.set_tensor(input_details[0]['index'], np.vstack([input_data]))
     interpreter.invoke()
+
     classes = interpreter.get_tensor(output_details[0]['index'])
     results = np.squeeze(classes)
+
     predicted = classes_values[np.argmax(results)]
     actual = classes_values[np.argmax(y_data[data[0]])]
+
     label_actual.append(actual)
     label_predicted.append(predicted)
 
