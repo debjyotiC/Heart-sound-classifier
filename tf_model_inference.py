@@ -7,7 +7,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 DEBUG = False
-model_type = "mfcc"
+model_type = "lmfe"
 model_path = f"saved_tflite_model/{model_type}.tflite"
 data_path = f"data/{model_type}.npz"
 
@@ -51,7 +51,7 @@ sns.heatmap(results, annot=True, ax=ax, fmt='g')
 # labels, title and ticks
 ax.set_xlabel('Predicted labels')
 ax.set_ylabel('True labels')
-ax.set_title(f'Confusion Matrix for {model_type.upper()} model')
+ax.set_title(f'Confusion Matrix for {model_type.upper()} TFLite model')
 ax.xaxis.set_ticklabels(classes_values)
 ax.yaxis.set_ticklabels(classes_values)
 plt.savefig(f'images/tflite_confusion_matrix_{model_type}.png', dpi=600)
