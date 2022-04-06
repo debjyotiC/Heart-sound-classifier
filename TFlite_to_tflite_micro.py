@@ -1,7 +1,7 @@
 import os
 
-tflite_model_path = "saved_tflite_model/mfe.tflite"
-tflite_micro_model_path = "saved_tflite_micro_model/mfe.h"
+tflite_model_path = "saved_tflite_model/mfcc_int8.tflite"
+tflite_micro_model_path = "saved_tflite_micro_model/mfcc_int8.h"
 
 converter_path = "xxd -i " + tflite_model_path + " > " + tflite_micro_model_path
 

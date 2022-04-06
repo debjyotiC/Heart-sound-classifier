@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 
 DEBUG = False
 model_type = "lmfe"
-model_path = f"saved_tflite_model/{model_type}.tflite"
+model_path = f"saved_tflite_model/{model_type}_default.tflite"
 data_path = f"data/{model_type}.npz"
 
 loaded_data = np.load(data_path)
@@ -43,8 +43,9 @@ for data in enumerate(x_data):
 
 
 results = confusion_matrix(label_actual, label_predicted)
+acc = accuracy_score(label_actual, label_predicted)
 
-print('Accuracy Score :', accuracy_score(label_actual, label_predicted))
+print('Accuracy Score :', acc)
 print(f'Classification report for {model_type.upper()} model: ')
 print(classification_report(label_actual, label_predicted))
 
@@ -55,7 +56,7 @@ sns.heatmap(results, annot=True, ax=ax, fmt='g')
 # labels, title and ticks
 ax.set_xlabel('Predicted labels')
 ax.set_ylabel('True labels')
-ax.set_title(f'Confusion Matrix for {model_type.upper()} TFLite model')
+ax.set_title(f'Confusion Matrix for {model_type.upper()} TFLite model accuracy {round(acc, 2)}')
 ax.xaxis.set_ticklabels(classes_values)
 ax.yaxis.set_ticklabels(classes_values)
 plt.savefig(f'images/tflite_confusion_matrix_{model_type}.png', dpi=600)
