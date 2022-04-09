@@ -1,15 +1,19 @@
 import tensorflow as tf
 import numpy as np
 
-model_type = "lmfe"
-type_of_quantization = "Default"
+model_type = "mfcc"
+type_of_quantization = "int8"
 saved_model_dir = f"saved_model/{model_type}"
+BATCH_SIZE = 65
+
+data = np.load("feature_data/mfcc.npz", allow_pickle=True)
+x_data, _ = data['out_x'].astype(np.float32), data['out_y'].astype(np.float32)
 
 
 def representative_dataset():
-    for _ in range(100):
-        data = np.random.rand(283, 3900)
-        yield [data.astype(np.float32)]
+    mfcc = tf.data.Dataset.from_tensor_slices(x_data).batch(1)
+    for i in mfcc.take(BATCH_SIZE):
+        yield [i]
 
 
 # Convert the model
