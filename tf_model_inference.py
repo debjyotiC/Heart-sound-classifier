@@ -7,7 +7,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 DEBUG = False
-model_type = "lmfe"
+model_type = "mfe"
 model_path = f"saved_tflite_model/{model_type}_default.tflite"
 data_path = f"data/{model_type}.npz"
 
@@ -59,5 +59,5 @@ ax.set_ylabel('True labels')
 ax.set_title(f'Confusion Matrix for {model_type.upper()} TFLite model accuracy {round(acc, 2)}')
 ax.xaxis.set_ticklabels(classes_values)
 ax.yaxis.set_ticklabels(classes_values)
-plt.savefig(f'images/tflite_confusion_matrix_{model_type}.png', dpi=600)
+# plt.savefig(f'images/tflite_confusion_matrix_{model_type}.png', dpi=600)
 plt.show()
