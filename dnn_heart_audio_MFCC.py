@@ -44,7 +44,7 @@ validation_dataset = validation_dataset.batch(BATCH_SIZE, drop_remainder=False)
 
 history = model.fit(train_dataset, epochs=150, validation_data=validation_dataset)
 
-model.save("saved_model/mfcc")
+# model.save("saved_model/mfcc")
 
 acc = history.history['acc']
 val_acc = history.history['val_acc']
