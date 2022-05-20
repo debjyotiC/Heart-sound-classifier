@@ -1,3 +1,4 @@
+import os
 from os import listdir
 from os.path import isdir, join
 import speechpy as sp
@@ -6,7 +7,7 @@ import numpy as np
 
 np.set_printoptions(suppress=True)
 dataset_path = '/Users/deb/Documents/heart-data'
-SAVE = True
+SAVE = False
 
 
 frame_length = 0.5
@@ -100,6 +101,11 @@ for folder in range(len(all_targets)):
 
             out_x_lmfe.append(lmfe_calculated.flatten())
             out_y_lmfe.append(folder + 1)
+
+            # copy_path = "cp " + full_path + " " + "/Users/deb/Documents/heart-data" + "/for_sd_card"
+            # print(copy_path)
+            # os.system(copy_path)
+
             print("MFCC Shape: ", mfcc_calculated.shape)
             print("MFE Shape: ", mfe_calculated.shape)
             print("MFE Shape: ", lmfe_calculated.shape)
