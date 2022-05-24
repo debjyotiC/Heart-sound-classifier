@@ -7,7 +7,7 @@ import numpy as np
 
 np.set_printoptions(suppress=True)
 dataset_path = '/Users/deb/Documents/heart-data'
-SAVE = False
+SAVE = True
 
 
 frame_length = 0.5
@@ -24,9 +24,7 @@ time = 2.0
 num_frames = 150
 
 all_targets = [name for name in listdir(dataset_path) if isdir(join(dataset_path, name))]
-all_targets.remove('exhaled')
-all_targets.remove('artifact')
-all_targets.remove('test')
+all_targets.remove('other')
 print(all_targets)
 
 filenames = []
@@ -102,10 +100,6 @@ for folder in range(len(all_targets)):
             out_x_lmfe.append(lmfe_calculated.flatten())
             out_y_lmfe.append(folder + 1)
 
-            # copy_path = "cp " + full_path + " " + "/Users/deb/Documents/heart-data" + "/for_sd_card"
-            # print(copy_path)
-            # os.system(copy_path)
-
             print("MFCC Shape: ", mfcc_calculated.shape)
             print("MFE Shape: ", mfe_calculated.shape)
             print("MFE Shape: ", lmfe_calculated.shape)
@@ -125,15 +119,6 @@ data_mfe_y = np.array(out_y_mfe)
 data_lmfe_x = np.array(out_x_lmfe)
 data_lmfe_y = np.array(out_y_lmfe)
 
-data_mfcc_x_int8 = np.array(out_x_mfcc, dtype=np.int8)
-data_mfcc_y_int8 = np.array(out_y_mfcc, dtype=np.int8)
-
-data_mfe_x_int8 = np.array(out_x_mfe, dtype=np.int8)
-data_mfe_y_int8 = np.array(out_y_mfe, dtype=np.int8)
-
-data_lmfe_x_int8 = np.array(out_x_lmfe, dtype=np.int8)
-data_lmfe_y_int8 = np.array(out_y_lmfe, dtype=np.int8)
-
 print(f"Kept {kept} files and dropped {dropped} in total of {dropped + kept}")
 
 print("MFCC Shape: ", data_mfcc_x.shape)
@@ -146,9 +131,5 @@ if SAVE:
     np.savez('data/mfcc.npz', out_x=data_mfcc_x, out_y=data_mfcc_y)  # store flattened MFCCs
     np.savez('data/mfe.npz', out_x=data_mfe_x, out_y=data_mfe_y)  # store flattened MFEs
     np.savez('data/lmfe.npz', out_x=data_lmfe_x, out_y=data_lmfe_y)  # store flattened log MFEs
-
-    np.savez('data/mfcc_int8.npz', out_x=data_mfcc_x_int8, out_y=data_mfcc_y_int8)  # store flattened MFCCs
-    np.savez('data/mfe_int8.npz', out_x=data_mfe_x_int8, out_y=data_mfe_y_int8)  # store flattened MFEs
-    np.savez('data/lmfe_int8.npz', out_x=data_lmfe_x_int8, out_y=data_lmfe_y_int8)  # store flattened log MFEs
 else:
     pass
