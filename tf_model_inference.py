@@ -3,11 +3,12 @@ import numpy as np
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import classification_report
 from sklearn.metrics import accuracy_score
+from sklearn.metrics import roc_auc_score
 import seaborn as sns
 import matplotlib.pyplot as plt
 
 DEBUG = False
-model_type = "mfe"
+model_type = "mfcc"
 model_path = f"saved_tflite_model/{model_type}_default.tflite"
 data_path = f"data/{model_type}.npz"
 
