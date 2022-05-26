@@ -17,7 +17,7 @@ train_dataset = tf.data.Dataset.from_tensor_slices((x_train, y_train))
 validation_dataset = tf.data.Dataset.from_tensor_slices((x_test, y_test))
 
 model = tf.keras.Sequential([
-    tf.keras.layers.Reshape((int(input_length / 26), 26), input_shape=(input_length,)),
+    tf.keras.layers.Reshape((150, 26), input_shape=(input_length,)),
 
     tf.keras.layers.Conv1D(8, kernel_size=3, activation='relu', padding='same'),
     tf.keras.layers.MaxPooling1D(pool_size=2, strides=2, padding='same'),
@@ -37,13 +37,13 @@ model.compile(loss=tf.keras.losses.CategoricalCrossentropy(),
               metrics=['acc'])
 
 # this controls the batch size
-BATCH_SIZE = 30
+BATCH_SIZE = 45
 train_dataset = train_dataset.batch(BATCH_SIZE, drop_remainder=False)
 validation_dataset = validation_dataset.batch(BATCH_SIZE, drop_remainder=False)
 
-history = model.fit(train_dataset, epochs=100, validation_data=validation_dataset)
+history = model.fit(train_dataset, epochs=150, validation_data=validation_dataset)
 
-# model.save("saved_model/mfe")
+model.save("saved_model/mfe")
 
 acc = history.history['acc']
 val_acc = history.history['val_acc']
