@@ -1,12 +1,12 @@
 import tensorflow as tf
 import numpy as np
 
-model_type = "mfcc"
-type_of_quantization = "int8"
+model_type = "lmfe"
+type_of_quantization = "Default"
 saved_model_dir = f"saved_model/{model_type}"
 BATCH_SIZE = 65
 
-data = np.load("feature_data/mfcc.npz", allow_pickle=True)
+data = np.load("data/lmfe.npz", allow_pickle=True)
 x_data, _ = data['out_x'].astype(np.float32), data['out_y'].astype(np.float32)
 
 
