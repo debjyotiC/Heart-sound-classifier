@@ -21,10 +21,10 @@ model = tf.keras.Sequential([
 
     tf.keras.layers.Conv1D(8, kernel_size=3, activation='relu', padding='same'),
     tf.keras.layers.MaxPooling1D(pool_size=2, strides=2, padding='same'),
-    tf.keras.layers.Dropout(0.6),
+    tf.keras.layers.Dropout(0.35),
     tf.keras.layers.Conv1D(16, kernel_size=3, activation='relu', padding='same'),
     tf.keras.layers.MaxPooling1D(pool_size=2, strides=2, padding='same'),
-    tf.keras.layers.Dropout(0.25),
+    tf.keras.layers.Dropout(0.2),
     tf.keras.layers.Flatten(),
 
     # Dense layer
@@ -37,11 +37,11 @@ model.compile(loss=tf.keras.losses.CategoricalCrossentropy(),
               metrics=['acc'])
 
 # this controls the batch size
-BATCH_SIZE = 45
+BATCH_SIZE = 53
 train_dataset = train_dataset.batch(BATCH_SIZE, drop_remainder=False)
 validation_dataset = validation_dataset.batch(BATCH_SIZE, drop_remainder=False)
 
-history = model.fit(train_dataset, epochs=150, validation_data=validation_dataset)
+history = model.fit(train_dataset, epochs=170, validation_data=validation_dataset)
 
 model.save("saved_model/lmfe")
 

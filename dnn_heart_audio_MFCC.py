@@ -37,7 +37,7 @@ model.compile(loss=tf.keras.losses.CategoricalCrossentropy(),
               metrics=['acc'])
 
 # this controls the batch size
-BATCH_SIZE = 45
+BATCH_SIZE = 40
 train_dataset = train_dataset.batch(BATCH_SIZE, drop_remainder=False)
 validation_dataset = validation_dataset.batch(BATCH_SIZE, drop_remainder=False)
 
