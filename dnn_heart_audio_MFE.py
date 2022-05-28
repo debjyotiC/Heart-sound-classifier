@@ -21,10 +21,10 @@ model = tf.keras.Sequential([
 
     tf.keras.layers.Conv1D(8, kernel_size=3, activation='relu', padding='same'),
     tf.keras.layers.MaxPooling1D(pool_size=2, strides=2, padding='same'),
-    tf.keras.layers.Dropout(0.6),
+    tf.keras.layers.Dropout(0.4),
     tf.keras.layers.Conv1D(16, kernel_size=3, activation='relu', padding='same'),
     tf.keras.layers.MaxPooling1D(pool_size=2, strides=2, padding='same'),
-    tf.keras.layers.Dropout(0.6),
+    tf.keras.layers.Dropout(0.4),
     tf.keras.layers.Flatten(),
 
     # Dense layer
@@ -33,12 +33,12 @@ model = tf.keras.Sequential([
 
 # model.summary()
 model.compile(loss=tf.keras.losses.CategoricalCrossentropy(),
-              optimizer=tf.keras.optimizers.Adam(learning_rate=0.003, beta_1=0.9, beta_2=0.999),
+              optimizer=tf.keras.optimizers.Adam(learning_rate=0.002, beta_1=0.9, beta_2=0.999),
               metrics=['acc'])
 
 # this controls the batch size
 
-BATCH_SIZE = 40
+BATCH_SIZE = 30
 
 train_dataset = train_dataset.batch(BATCH_SIZE, drop_remainder=False)
 validation_dataset = validation_dataset.batch(BATCH_SIZE, drop_remainder=False)

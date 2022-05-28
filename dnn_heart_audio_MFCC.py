@@ -21,7 +21,7 @@ model = tf.keras.Sequential([
 
     tf.keras.layers.Conv1D(8, kernel_size=3, activation='relu', padding='same'),
     tf.keras.layers.MaxPooling1D(pool_size=2, strides=2, padding='same'),
-    tf.keras.layers.Dropout(0.6),
+    tf.keras.layers.Dropout(0.4),
     tf.keras.layers.Conv1D(16, kernel_size=3, activation='relu', padding='same'),
     tf.keras.layers.MaxPooling1D(pool_size=2, strides=2, padding='same'),
     tf.keras.layers.Dropout(0.25),
