@@ -10,7 +10,7 @@ classes_values = ["murmur", "normal"]
 classes = len(classes_values)
 
 y_data = tf.keras.utils.to_categorical(y_data - 1, classes)
-x_train, x_test, y_train, y_test = train_test_split(x_data, y_data, test_size=0.2, random_state=1, shuffle=True)
+x_train, x_test, y_train, y_test = train_test_split(x_data, y_data, test_size=0.2)
 input_length = x_train[0].shape[0]
 
 train_dataset = tf.data.Dataset.from_tensor_slices((x_train, y_train))
@@ -21,10 +21,10 @@ model = tf.keras.Sequential([
 
     tf.keras.layers.Conv1D(8, kernel_size=3, activation='relu', padding='same'),
     tf.keras.layers.MaxPooling1D(pool_size=2, strides=2, padding='same'),
-    tf.keras.layers.Dropout(0.4),
+    tf.keras.layers.Dropout(0.5),
     tf.keras.layers.Conv1D(16, kernel_size=3, activation='relu', padding='same'),
     tf.keras.layers.MaxPooling1D(pool_size=2, strides=2, padding='same'),
-    tf.keras.layers.Dropout(0.5),
+    tf.keras.layers.Dropout(0.6),
     tf.keras.layers.Flatten(),
 
     # Dense layer
@@ -33,7 +33,7 @@ model = tf.keras.Sequential([
 
 # model.summary()
 model.compile(loss=tf.keras.losses.CategoricalCrossentropy(),
-              optimizer=tf.keras.optimizers.Adam(learning_rate=0.004), metrics=['acc'])
+              optimizer=tf.keras.optimizers.Adam(learning_rate=0.002), metrics=['acc'])
 
 # this controls the batch size
 

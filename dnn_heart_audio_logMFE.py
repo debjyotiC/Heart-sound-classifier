@@ -10,7 +10,7 @@ classes_values = ["murmur", "normal"]
 classes = len(classes_values)
 
 y_data = tf.keras.utils.to_categorical(y_data - 1, classes)
-x_train, x_test, y_train, y_test = train_test_split(x_data, y_data, test_size=0.2, random_state=1, shuffle=True)
+x_train, x_test, y_train, y_test = train_test_split(x_data, y_data, test_size=0.2)
 input_length = x_train[0].shape[0]
 
 train_dataset = tf.data.Dataset.from_tensor_slices((x_train, y_train))
