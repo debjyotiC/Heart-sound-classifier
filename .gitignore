@@ -10,3 +10,6 @@
 /data/lmfe_int8.npz
 /data/mfcc_int8.npz
 /data/mfe_int8.npz
+/data/lmfe_noisy.npz
+/data/mfcc_noisy.npz
+/data/mfe_noisy.npz
