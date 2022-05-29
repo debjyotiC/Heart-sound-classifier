@@ -8,9 +8,10 @@ labels = ["Normal (PhysioNet)", "Normal (Pascal)", "Noisy Normal", "Gathered Nor
 fig, ax = plt.subplots()
 
 # Capture each of the return elements.
-patches, texts, pcts = ax.pie(y, labels=labels, startangle=90, autopct='%.1f%%', radius=1.2, pctdistance=0.85,
-                              wedgeprops={'linewidth': 2.0, 'edgecolor': 'white'}, textprops={'size': 12})
+patches, texts, pcts = ax.pie(y, labels=labels, startangle=90, autopct='%1.f%%', radius=1.0, pctdistance=0.85,
+                              wedgeprops={'linewidth': 2.0, 'edgecolor': 'white'}, textprops={'size': 9})
 # Style just the percent values.
 plt.setp(pcts, color='white')
-# plt.savefig("images/dataset_dist.png", dpi=600)
+plt.tight_layout()
+plt.savefig("images/dataset_dist.png", dpi=600)
 plt.show()
