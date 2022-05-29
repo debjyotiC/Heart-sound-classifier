@@ -8,9 +8,9 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 
-feature_type = "mfe"
+feature_type = "mfcc"
 model_path = f"saved_tflite_model/{feature_type}_default.tflite"
-data_path = f"data/{feature_type}_noisy.npz"
+data_path = f"data/{feature_type}.npz"
 
 loaded_data = np.load(data_path)
 x_data, y_data = loaded_data['out_x'], loaded_data['out_y']
@@ -68,10 +68,10 @@ ax = plt.subplot()
 sns.heatmap(results, annot=True,  annot_kws={"size": 20}, ax=ax, fmt='g')
 
 # labels, title and ticks
-ax.set_xlabel('Predicted labels', fontsize=17)
-ax.set_ylabel('True labels', fontsize=17)
-ax.set_title(f'Confusion Matrix for {feature_type.upper()} TFLite model accuracy {round(acc, 2)}')
-ax.xaxis.set_ticklabels(classes_values, fontsize=20)
-ax.yaxis.set_ticklabels(classes_values, fontsize=20)
-plt.savefig(f'images/tflite_confusion_matrix_{feature_type}.png', dpi=600)
+ax.set_xlabel('Predicted labels', fontsize=12)
+ax.set_ylabel('True labels', fontsize=12)
+# ax.set_title(f'Confusion Matrix for {feature_type.upper()} TFLite model accuracy {round(acc, 2)}')
+ax.xaxis.set_ticklabels(classes_values, fontsize=15)
+ax.yaxis.set_ticklabels(classes_values, fontsize=15)
+# plt.savefig(f'images/tflite_confusion_matrix_{feature_type}.png', dpi=600)
 plt.show()

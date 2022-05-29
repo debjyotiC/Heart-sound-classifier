@@ -1,7 +1,7 @@
 import tensorflow as tf
 import numpy as np
 
-model_type = "lmfe"
+model_type = "mfe"
 type_of_quantization = "Default"
 saved_model_dir = f"saved_model/{model_type}"
 BATCH_SIZE = 65
