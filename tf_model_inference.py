@@ -1,16 +1,16 @@
+import math
 import tensorflow as tf
 import numpy as np
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import classification_report
 from sklearn.metrics import accuracy_score
-
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-DEBUG = False
-model_type = "mfe"
-model_path = f"saved_tflite_model/{model_type}_default.tflite"
-data_path = f"data/{model_type}.npz"
+
+feature_type = "mfe"
+model_path = f"saved_tflite_model/{feature_type}_default.tflite"
+data_path = f"data/{feature_type}_noisy.npz"
 
 loaded_data = np.load(data_path)
 x_data, y_data = loaded_data['out_x'], loaded_data['out_y']
@@ -43,22 +43,35 @@ for data in enumerate(x_data):
     label_predicted.append(predicted)
 
 
-results = confusion_matrix(label_actual, label_predicted)
+tn, fp, fn, tp = confusion_matrix(label_actual, label_predicted).ravel()
 acc = accuracy_score(label_actual, label_predicted)
+report = classification_report(label_actual, label_predicted, output_dict=True)
+results = confusion_matrix(label_actual, label_predicted)
+precision = tp/(tp+fp)
+sensitivity = tp/(tp+fn)
+specificity = tn/(tn+fp)
 
-print('Accuracy Score :', acc)
-print(f'Classification report for {model_type.upper()} model: ')
-print(classification_report(label_actual, label_predicted))
+x = sensitivity/(1-sensitivity)
+y = specificity/(1-specificity)
 
+youdens_index = sensitivity - (1-specificity)
+discriminant_power = (math.sqrt(3)/math.pi)*(math.log(x)+math.log(y))
+
+print(f"For feature type: {feature_type}")
+print(f"Accuracy Score: {acc}")
+print(f"F1: {report['weighted avg']['f1-score']}")
+print(f"Precision: {precision}")
+print(f"Youden's Index: {youdens_index}")
+print(f"Discriminant Power: {discriminant_power}")
 
 ax = plt.subplot()
-sns.heatmap(results, annot=True, ax=ax, fmt='g')
+sns.heatmap(results, annot=True,  annot_kws={"size": 20}, ax=ax, fmt='g')
 
 # labels, title and ticks
-ax.set_xlabel('Predicted labels')
-ax.set_ylabel('True labels')
-ax.set_title(f'Confusion Matrix for {model_type.upper()} TFLite model accuracy {round(acc, 2)}')
-ax.xaxis.set_ticklabels(classes_values)
-ax.yaxis.set_ticklabels(classes_values)
-plt.savefig(f'images/tflite_confusion_matrix_{model_type}.png', dpi=600)
+ax.set_xlabel('Predicted labels', fontsize=17)
+ax.set_ylabel('True labels', fontsize=17)
+ax.set_title(f'Confusion Matrix for {feature_type.upper()} TFLite model accuracy {round(acc, 2)}')
+ax.xaxis.set_ticklabels(classes_values, fontsize=20)
+ax.yaxis.set_ticklabels(classes_values, fontsize=20)
+plt.savefig(f'images/tflite_confusion_matrix_{feature_type}.png', dpi=600)
 plt.show()
