@@ -25,6 +25,7 @@ num_frames = 150
 
 all_targets = [name for name in listdir(dataset_path) if isdir(join(dataset_path, name))]
 all_targets.remove('other')
+all_targets.remove('noisy')
 print(all_targets)
 
 filenames = []

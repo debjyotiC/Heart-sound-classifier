@@ -11,6 +11,7 @@ classes = len(classes_values)
 
 y_data = tf.keras.utils.to_categorical(y_data - 1, classes)
 x_train, x_test, y_train, y_test = train_test_split(x_data, y_data, train_size=0.8, random_state=1)
+
 input_length = x_train[0].shape[0]
 
 train_dataset = tf.data.Dataset.from_tensor_slices((x_train, y_train))
@@ -24,20 +25,20 @@ model = tf.keras.Sequential([
     tf.keras.layers.Dropout(0.4),
     tf.keras.layers.Conv1D(16, kernel_size=3, activation='relu', padding='same'),
     tf.keras.layers.MaxPooling1D(pool_size=2, strides=2, padding='same'),
-    tf.keras.layers.Dropout(0.25),
+    tf.keras.layers.Dropout(0.3),
     tf.keras.layers.Flatten(),
 
     # Dense layer
     tf.keras.layers.Dense(classes, activation='softmax', name='y_pred')
 ])
 
-model.summary()
+# model.summary()
 model.compile(loss=tf.keras.losses.CategoricalCrossentropy(),
-              optimizer=tf.keras.optimizers.Adam(learning_rate=0.002, beta_1=0.9, beta_2=0.999),
+              optimizer=tf.keras.optimizers.Adam(learning_rate=0.003, beta_1=0.9, beta_2=0.999),
               metrics=['acc'])
 
 # this controls the batch size
-BATCH_SIZE = 40
+BATCH_SIZE = 45
 train_dataset = train_dataset.batch(BATCH_SIZE, drop_remainder=False)
 validation_dataset = validation_dataset.batch(BATCH_SIZE, drop_remainder=False)
 

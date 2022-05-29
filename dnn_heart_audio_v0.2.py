@@ -37,12 +37,12 @@ model = tf.keras.Sequential([
 
 model.summary()
 model.compile(loss=tf.keras.losses.BinaryCrossentropy(), optimizer=tf.keras.optimizers.Adam(learning_rate=0.0001),
-              metrics=['acc'])
+              metrics=['acc_test'])
 history = model.fit(x_train, y_train, epochs=100, batch_size=5, validation_data=(x_test, y_test))
 
 model.save("saved_model/mfcc_3d")
 
-acc = history.history['acc']
+acc = history.history['acc_test']
 val_acc = history.history['val_acc']
 loss = history.history['loss']
 val_loss = history.history['val_loss']
@@ -61,8 +61,8 @@ axs[0].set_ylabel('Loss')
 axs[0].grid(True)
 axs[0].legend(loc='best')
 # plot accuracy
-axs[1].plot(epochs, acc, '-', label='Training acc')
-axs[1].plot(epochs, val_acc, 'b', label='Validation acc')
+axs[1].plot(epochs, acc, '-', label='Training acc_test')
+axs[1].plot(epochs, val_acc, 'b', label='Validation acc_test')
 axs[1].set_xlabel('Epoch')
 axs[1].set_ylabel('Accuracy')
 axs[1].grid(True)

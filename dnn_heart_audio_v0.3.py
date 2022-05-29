@@ -33,7 +33,7 @@ model = tf.keras.Sequential([
 model.summary()
 model.compile(loss=tf.keras.losses.CategoricalCrossentropy(),
               optimizer=tf.keras.optimizers.Adam(learning_rate=0.008, beta_1=0.9, beta_2=0.999),
-              metrics=['acc'])
+              metrics=['acc_test'])
 
 # this controls the batch size
 BATCH_SIZE = 32
@@ -44,7 +44,7 @@ history = model.fit(train_dataset, epochs=150, validation_data=validation_datase
 
 # model.save("saved_model/mfcc_flattened")
 
-acc = history.history['acc']
+acc = history.history['acc_test']
 val_acc = history.history['val_acc']
 loss = history.history['loss']
 val_loss = history.history['val_loss']
@@ -63,8 +63,8 @@ axs[0].set_ylabel('Loss')
 axs[0].grid(True)
 axs[0].legend(loc='best')
 # plot accuracy
-axs[1].plot(epochs, acc, '-', label='Training acc')
-axs[1].plot(epochs, val_acc, 'b', label='Validation acc')
+axs[1].plot(epochs, acc, '-', label='Training acc_test')
+axs[1].plot(epochs, val_acc, 'b', label='Validation acc_test')
 axs[1].set_xlabel('Epoch')
 axs[1].set_ylabel('Accuracy')
 axs[1].grid(True)
