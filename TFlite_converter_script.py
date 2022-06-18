@@ -1,8 +1,8 @@
 import tensorflow as tf
 import numpy as np
 
-model_type = "mfe"
-type_of_quantization = "Default"
+model_type = "mfcc"
+type_of_quantization = "int8"
 saved_model_dir = f"saved_model/{model_type}"
 BATCH_SIZE = 65
 
