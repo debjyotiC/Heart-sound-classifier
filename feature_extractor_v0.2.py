@@ -1,8 +1,8 @@
-import os
 from os import listdir
 from os.path import isdir, join
 import speechpy as sp
 import librosa
+from librosa.util import fix_length
 import numpy as np
 
 np.set_printoptions(suppress=True)
@@ -21,6 +21,7 @@ pre_cof = 0.97
 pre_shift = 1
 
 time = 2.0
+limit = 2
 num_frames = 150
 
 all_targets = [name for name in listdir(dataset_path) if isdir(join(dataset_path, name))]
@@ -38,7 +39,7 @@ for index, target in enumerate(all_targets):
 
 def calc_MFCC(path):
     signal, fs = librosa.load(path, sr=None)
-    signal = signal[0: int(time * fs)]
+    signal = fix_length(signal, size=limit*fs)
     signal_pre_emphasized = sp.processing.preemphasis(signal, cof=pre_cof, shift=pre_shift)
     mfccs = sp.feature.mfcc(signal_pre_emphasized, sampling_frequency=fs, frame_length=frame_length,
                             frame_stride=frame_stride, num_cepstral=num_ceps, num_filters=num_filter,
@@ -48,7 +49,7 @@ def calc_MFCC(path):
 
 def calc_MFE(path):
     signal, fs = librosa.load(path, sr=None)
-    signal = signal[0: int(time * fs)]
+    signal = fix_length(signal, size=limit*fs)
     signal_pre_emphasized = sp.processing.preemphasis(signal, cof=pre_cof, shift=pre_shift)
     mfe, energy = sp.feature.mfe(signal_pre_emphasized, sampling_frequency=fs, frame_length=frame_length,
                                  frame_stride=frame_stride, num_filters=num_filter,
@@ -58,7 +59,7 @@ def calc_MFE(path):
 
 def calc_logMFE(path):
     signal, fs = librosa.load(path, sr=None)
-    signal = signal[0: int(time * fs)]
+    signal = fix_length(signal, size=limit*fs)
     signal_pre_emphasized = sp.processing.preemphasis(signal, cof=pre_cof, shift=pre_shift)
     lmfe = sp.feature.lmfe(signal_pre_emphasized, sampling_frequency=fs, frame_length=frame_length,
                            frame_stride=frame_stride, num_filters=num_filter,
@@ -120,6 +121,12 @@ data_mfe_y = np.array(out_y_mfe)
 data_lmfe_x = np.array(out_x_lmfe)
 data_lmfe_y = np.array(out_y_lmfe)
 
+
+data_mfcc_x_int = np.array(out_x_mfcc, dtype="int8")
+data_mfe_x_int = np.array(out_x_mfe, dtype="int8")
+data_lmfe_x_int = np.array(out_x_lmfe, dtype="int8")
+
+
 print(f"Kept {kept} files and dropped {dropped} in total of {dropped + kept}")
 
 print("MFCC Shape: ", data_mfcc_x.shape)
@@ -128,9 +135,14 @@ print("log MFE Shape: ", data_lmfe_x.shape)
 
 
 if SAVE:
-    print("saving NPZ file")
     np.savez('data/mfcc.npz', out_x=data_mfcc_x, out_y=data_mfcc_y)  # store flattened MFCCs
     np.savez('data/mfe.npz', out_x=data_mfe_x, out_y=data_mfe_y)  # store flattened MFEs
     np.savez('data/lmfe.npz', out_x=data_lmfe_x, out_y=data_lmfe_y)  # store flattened log MFEs
+
+    np.savez('data/mfcc_int8.npz', out_x=data_mfcc_x_int, out_y=data_mfcc_y)  # store flattened MFCCs
+    np.savez('data/mfe_int8.npz', out_x=data_mfe_x_int, out_y=data_mfe_y)  # store flattened MFEs
+    np.savez('data/lmfe_int8.npz', out_x=data_lmfe_x_int, out_y=data_lmfe_y)  # store flattened log MFEs
+
+    print("saved NPZ file")
 else:
     pass
