@@ -3,7 +3,8 @@ import tensorflow as tf
 from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
 
-data = np.load("data/mfe.npz", allow_pickle=True)
+data_type = "mfe"
+data = np.load(f"data/{data_type}.npz", allow_pickle=True)
 x_data, y_data = data['out_x'], data['out_y']
 
 classes_values = ["murmur", "normal"]
@@ -29,10 +30,10 @@ model = tf.keras.Sequential([
 
     tf.keras.layers.Conv1D(8, kernel_size=3, activation='relu', padding='same'),
     tf.keras.layers.MaxPooling1D(pool_size=2, strides=2, padding='same'),
-    tf.keras.layers.Dropout(0.3),
+    tf.keras.layers.Dropout(0.2),
     tf.keras.layers.Conv1D(16, kernel_size=3, activation='relu', padding='same'),
     tf.keras.layers.MaxPooling1D(pool_size=2, strides=2, padding='same'),
-    tf.keras.layers.Dropout(0.3),
+    tf.keras.layers.Dropout(0.2),
     tf.keras.layers.Flatten(),
 
     # Dense layer
@@ -41,7 +42,7 @@ model = tf.keras.Sequential([
 
 # model.summary()
 model.compile(loss=tf.keras.losses.CategoricalCrossentropy(),
-              optimizer=tf.keras.optimizers.Adam(learning_rate=0.003), metrics=['acc'])
+              optimizer=tf.keras.optimizers.Adam(learning_rate=0.002), metrics=['acc'])
 
 # this controls the batch size
 BATCH_SIZE = 60
@@ -50,7 +51,6 @@ validation_dataset = validation_dataset.batch(BATCH_SIZE, drop_remainder=False)
 
 history = model.fit(train_dataset, epochs=150, validation_data=validation_dataset)
 
-# model.save("saved_model/mfcc")
 
 acc = history.history['acc']
 val_acc = history.history['val_acc']
@@ -59,8 +59,11 @@ val_loss = history.history['val_loss']
 
 print(f"Training Accuracy: {round(np.average(acc), 3)}")
 print(f"Validation Accuracy: {round(np.average(val_acc), 3)}")
-print(f"Testing Accuracy: {model.predict(x_test)}")
-print(f"Test labesl {y_test}")
+
+predicted_labels = model.predict(x_test)
+actual_labels = y_test
+
+np.savez(f'data/{data_type}_test.npz', out_x=predicted_labels, out_y=actual_labels)
 
 epochs = range(1, len(acc) + 1)
 fig, axs = plt.subplots(2, 1)

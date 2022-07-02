@@ -1,102 +1,51 @@
 import numpy as np
+import math
+from sklearn.metrics import confusion_matrix
+from sklearn.metrics import classification_report
+from sklearn.metrics import accuracy_score
+import seaborn as sns
+import matplotlib.pyplot as plt
 
-predicted = np.array([[2.0158313e-02, 9.7984171e-01],
-                      [5.0715598e-10, 1.0000000e+00],
-                      [9.6983320e-01, 3.0166848e-02],
-                      [4.8640445e-01, 5.1359558e-01],
-                      [9.9999833e-01, 1.6491696e-06],
-                      [8.8664925e-01, 1.1335077e-01],
-                      [9.9995387e-01, 4.6164849e-05],
-                      [9.9973172e-01, 2.6828810e-04],
-                      [3.1996620e-04, 9.9968004e-01],
-                      [4.3870537e-03, 9.9561298e-01],
-                      [1.4672527e-06, 9.9999857e-01],
-                      [1.3077722e-09, 1.0000000e+00],
-                      [9.9993587e-01, 6.4165775e-05],
-                      [1.0633522e-05, 9.9998939e-01],
-                      [9.9928385e-01, 7.1617780e-04],
-                      [9.9565756e-01, 4.3424023e-03],
-                      [9.9586099e-01, 4.1390797e-03],
-                      [9.9508321e-01, 4.9168291e-03],
-                      [9.8868775e-01, 1.1312240e-02],
-                      [1.7529304e-11, 1.0000000e+00],
-                      [9.9757630e-01, 2.4237530e-03],
-                      [1.3105128e-03, 9.9868947e-01],
-                      [9.9385989e-01, 6.1401231e-03],
-                      [1.0000000e+00, 1.7020946e-09],
-                      [3.1123607e-05, 9.9996889e-01],
-                      [4.6064623e-02, 9.5393538e-01],
-                      [2.3145756e-01, 7.6854241e-01],
-                      [8.6118597e-09, 1.0000000e+00],
-                      [2.2701455e-02, 9.7729856e-01],
-                      [9.9994791e-01, 5.2033382e-05],
-                      [5.7454002e-01, 4.2546004e-01],
-                      [8.6374253e-16, 1.0000000e+00],
-                      [1.6343925e-03, 9.9836558e-01],
-                      [1.3237103e-02, 9.8676294e-01],
-                      [3.6332565e-03, 9.9636674e-01],
-                      [9.9986649e-01, 1.3350732e-04],
-                      [9.9772137e-01, 2.2785726e-03],
-                      [7.6923721e-02, 9.2307627e-01],
-                      [1.4999134e-03, 9.9850011e-01],
-                      [1.6416460e-03, 9.9835831e-01],
-                      [7.9213315e-01, 2.0786683e-01],
-                      [9.8391807e-01, 1.6081985e-02],
-                      [1.5968950e-05, 9.9998403e-01],
-                      [1.1041138e-04, 9.9988961e-01],
-                      [9.9991906e-01, 8.0985636e-05],
-                      [4.3870537e-03, 9.9561298e-01],
-                      [9.6241641e-01, 3.7583604e-02],
-                      [9.9990702e-01, 9.2961542e-05],
-                      [7.9761403e-06, 9.9999201e-01]])
-test_labes = np.array([[1., 0.],
-                       [0., 1.],
-                       [1., 0.],
-                       [1., 0.],
-                       [1., 0.],
-                       [1., 0.],
-                       [1., 0.],
-                       [1., 0.],
-                       [0., 1.],
-                       [0., 1.],
-                       [0., 1.],
-                       [0., 1.],
-                       [1., 0.],
-                       [0., 1.],
-                       [1., 0.],
-                       [1., 0.],
-                       [1., 0.],
-                       [1., 0.],
-                       [1., 0.],
-                       [0., 1.],
-                       [1., 0.],
-                       [0., 1.],
-                       [1., 0.],
-                       [1., 0.],
-                       [0., 1.],
-                       [0., 1.],
-                       [1., 0.],
-                       [0., 1.],
-                       [0., 1.],
-                       [1., 0.],
-                       [1., 0.],
-                       [0., 1.],
-                       [0., 1.],
-                       [1., 0.],
-                       [0., 1.],
-                       [1., 0.],
-                       [1., 0.],
-                       [0., 1.],
-                       [0., 1.],
-                       [1., 0.],
-                       [1., 0.],
-                       [1., 0.],
-                       [1., 0.],
-                       [0., 1.],
-                       [1., 0.],
-                       [0., 1.],
-                       [1., 0.],
-                       [1., 0.],
-                       [0., 1.]])
+data_type = "lmfe"
+data = np.load(f'data/{data_type}_test.npz', allow_pickle=True)
 
-print(test_labes.shape)
+predicted_label, actual_label = data['out_x'], data['out_y']
+classes_values = ["murmur", "normal"]
+label_predicted = np.argmax(predicted_label, axis=1)
+label_actual = np.argmax(actual_label, axis=1)
+
+# print(predicted_label)
+# print(actual_label)
+
+tn, fp, fn, tp = confusion_matrix(label_actual, label_predicted).ravel()
+acc = accuracy_score(label_actual, label_predicted)
+report = classification_report(label_actual, label_predicted, output_dict=True)
+results = confusion_matrix(label_actual, label_predicted)
+precision = tp/(tp+fp)
+sensitivity = tp/(tp+fn)
+specificity = tn/(tn+fp)
+
+x = sensitivity/(1-sensitivity)
+y = specificity/(1-specificity)
+
+youdens_index = sensitivity - (1-specificity)
+discriminant_power = (math.sqrt(3)/math.pi)*(math.log(x)+math.log(y))
+
+print(f"For feature type: {data_type}")
+print(f"Accuracy Score: {acc}")
+print(f"F1: {report['weighted avg']['f1-score']}")
+print(f"Precision: {precision}")
+print(f"Youden's Index: {youdens_index}")
+print(f"Discriminant Power: {discriminant_power}")
+
+ax = plt.subplot()
+sns.heatmap(results, annot=True,  annot_kws={"size": 20}, ax=ax, fmt='g')
+
+# labels, title and ticks
+ax.set_xlabel('Predicted labels', fontsize=12)
+ax.set_ylabel('True labels', fontsize=12)
+ax.set_title(f'Confusion Matrix for {data_type.upper()} TFLite model accuracy {round(acc, 2)}')
+ax.xaxis.set_ticklabels(classes_values, fontsize=15)
+ax.yaxis.set_ticklabels(classes_values, fontsize=15)
+# plt.savefig(f'images/tflite_confusion_matrix_{data_type}.png', dpi=600)
+plt.show()

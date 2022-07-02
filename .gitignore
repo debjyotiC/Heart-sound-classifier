@@ -13,3 +13,6 @@
 /data/lmfe_noisy.npz
 /data/mfcc_noisy.npz
 /data/mfe_noisy.npz
+/data/mfcc_test.npz
+/data/mfe_test.npz
+/data/lmfe_test.npz
