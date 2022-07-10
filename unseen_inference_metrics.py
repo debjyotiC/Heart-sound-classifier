@@ -6,7 +6,7 @@ from sklearn.metrics import accuracy_score
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-data_type = "lmfe"
+data_type = "mfcc"
 data = np.load(f'data/{data_type}_test.npz', allow_pickle=True)
 
 predicted_label, actual_label = data['out_x'], data['out_y']
