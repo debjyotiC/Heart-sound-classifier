@@ -7,7 +7,7 @@ import numpy as np
 
 np.set_printoptions(suppress=True)
 dataset_path = '/Users/deb/Documents/heart-data'
-SAVE = True
+SAVE = False
 
 
 frame_length = 0.5
@@ -26,7 +26,7 @@ num_frames = 150
 
 all_targets = [name for name in listdir(dataset_path) if isdir(join(dataset_path, name))]
 all_targets.remove('other')
-all_targets.remove('noisy')
+# all_targets.remove('noisy')
 print(all_targets)
 
 filenames = []
@@ -113,12 +113,15 @@ for folder in range(len(all_targets)):
             dropped = dropped + 1
 
 data_mfcc_x = np.array(out_x_mfcc)
-data_mfcc_y = np.array(out_y_mfcc)
-
 data_mfe_x = np.array(out_x_mfe)
-data_mfe_y = np.array(out_y_mfe)
-
 data_lmfe_x = np.array(out_x_lmfe)
+
+data_mfcc_x_int = np.array(out_x_mfcc)
+data_mfe_x_int = np.array(out_x_mfe)
+data_lmfe_x_int = np.array(out_x_lmfe)
+
+data_mfcc_y = np.array(out_y_mfcc)
+data_mfe_y = np.array(out_y_mfe)
 data_lmfe_y = np.array(out_y_lmfe)
 
 

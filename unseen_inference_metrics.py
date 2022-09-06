@@ -6,7 +6,7 @@ from sklearn.metrics import accuracy_score
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-data_type = "lmfe"
+data_type = "mfe"
 data = np.load(f'data/{data_type}_test.npz', allow_pickle=True)
 
 predicted_label, actual_label = data['out_x'], data['out_y']
@@ -44,7 +44,7 @@ sns.heatmap(results, annot=True,  annot_kws={"size": 20}, ax=ax, fmt='g')
 # labels, title and ticks
 ax.set_xlabel('Predicted labels', fontsize=12)
 ax.set_ylabel('True labels', fontsize=12)
-ax.set_title(f'Confusion Matrix for {data_type.upper()} TFLite model accuracy {round(acc, 2)}')
+# ax.set_title(f'Confusion Matrix for {data_type.upper()} TFLite model accuracy {round(acc, 2)}')
 ax.xaxis.set_ticklabels(classes_values, fontsize=15)
 ax.yaxis.set_ticklabels(classes_values, fontsize=15)
 # plt.savefig(f'images/tflite_confusion_matrix_{data_type}.png', dpi=600)

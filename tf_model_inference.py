@@ -7,7 +7,7 @@ from sklearn.metrics import accuracy_score
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-
+DEBUG = False
 feature_type = "mfcc"
 model_path = f"saved_tflite_model/{feature_type}_default.tflite"
 data_path = f"data/{feature_type}.npz"

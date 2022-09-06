@@ -6,7 +6,7 @@ type_of_quantization = "int8"
 saved_model_dir = f"saved_model/{model_type}"
 BATCH_SIZE = 65
 
-data = np.load("data/lmfe.npz", allow_pickle=True)
+data = np.load(f"data/{model_type}.npz", allow_pickle=True)
 x_data, _ = data['out_x'].astype(np.float32), data['out_y'].astype(np.float32)
 
 
