@@ -16,3 +16,7 @@
 /data/mfcc_test.npz
 /data/mfe_test.npz
 /data/lmfe_test.npz
+/data/lmfe_2_test.npz
+/data/mfcc_2_test.npz
+/data/mfe_2_test.npz
+
